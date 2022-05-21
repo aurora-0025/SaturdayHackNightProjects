@@ -136,7 +136,7 @@ function App() {
         <h3>?</h3>
       </div>
       {inputError && (
-            <div className={styles.inputErr}><i class="fa fa-info-circle" aria-hidden="true"></i> {inputError}</div>
+            <div className={styles.inputErr}><i className="fa fa-info-circle" aria-hidden="true"></i> {inputError}</div>
           )}
       <div className={styles.inputContainer}>
         <div className={`${styles.inputWrapper} ${styles.km}`}>
