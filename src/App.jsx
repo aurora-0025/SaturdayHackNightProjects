@@ -56,18 +56,25 @@ function App() {
 
   async function getRandomCity() {
      const offset = Math.floor(Math.random() * (totalCities - 0 + 1));
-     const res = await fetch(`http://geodb-free-service.wirefreethought.com/v1/geo/cities?limit=1&offset=${offset}&hateoasMode=off`, {
-       method: "get"
-     })
-     return await res.json();
+     const options = {
+      method: 'GET',
+      headers: {
+        'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com',
+        'X-RapidAPI-Key': process.env.REACT_APP_GEODB_RAPID_API_KEY
+      }
+    };
+    
+    const res = await fetch(`https://wft-geo-db.p.rapidapi.com/v1/geo/cities?limit=1&offset=${offset}&hateoasMode=off`, options)
+    return await res.json()
   }
 
   async function startGame() {
     setIsPlaying(true);
     let firstCity = await getRandomCity();
-    let secondCity = await getRandomCity();
+    setTimeout(async () => {
+      setCity2(await getRandomCity());
+    }, 1500)
     setCity1(firstCity);
-    setCity2(secondCity);
   }
 
   function checkResult(value) {
@@ -81,6 +88,9 @@ function App() {
   }
 
   useEffect(()=>{
+    if(city1 && !city2) {
+      mapRef.current?.flyTo({center: [city1.data[0].longitude, city1.data[0].latitude], duration: 2000});
+    }
     if(city1 && city2){
       mapRef.current?.flyTo({center: [city2.data[0].longitude, city2.data[0].latitude], duration: 2000});
       let coords = [[city1.data[0].longitude, city1.data[0].latitude], [city2.data[0].longitude ,city2.data[0].latitude]]
@@ -133,7 +143,7 @@ function App() {
         </Source>
         <NavigationControl/>
         </Map>
-    {(isPlaying && city1) ? (
+    {(isPlaying && city2) ? (
         <div className={styles.gameController}>
       <div className={styles.contentContainer}>
         <h3>How far is </h3>
@@ -158,7 +168,7 @@ function App() {
         {isEnded ? 
         (<Result reset={resetGame} guess={guess} distance={Math.round((distance + Number.EPSILON) * 100) / 100} percentCloseness={Math.round((percentCloseness + Number.EPSILON) * 100) / 100} />): 
         <button className={styles.startBtn} onClick={startGame}>
-          {!isPlaying ? <>Start Game</> :  <>{!city1 && <i className='fa fa-spinner fa-spin'></i>}</> } </button>}
+          {!isPlaying ? <>Start Game</> :  <>{!city2 && <i className='fa fa-spinner fa-spin'></i>}</> } </button>}
       </div>
     )} 
 </div>
