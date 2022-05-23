@@ -17,7 +17,7 @@ mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worke
 
 
 function App() {
-  const totalCities = 24154;
+  const totalCities = 539950;
   const mapRef = useRef();
   const inputRef = useRef();
   const [coordinates, setCoordinates] = useState([])
