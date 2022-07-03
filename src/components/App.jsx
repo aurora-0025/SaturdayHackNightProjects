@@ -5,6 +5,7 @@ import styles from './App.module.css'
 export default function App() {  
   const [to, setTo] = useState([]);
   const [toInput, setToInput] = useState("");
+  const [sendStatus, setSendStatus] = useState("SEND");
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [subjectInput, setSubjectInput] = useState("");
@@ -18,8 +19,9 @@ export default function App() {
   const topRef = useRef(null);
 
   const sendMail = (to, sub, htmlSrc)=> {
-    topRef.current.scrollIntoView()
-    if(to.length == 0) return setError(" Please Enter a To Address!");
+    setSendStatus("SENDING...")
+    if(to.length === 0) return setError(" please enter a to Address!");
+    if(subjectInput === "") return setError(" please enter a subject for the mail!");
     console.log(htmlSrc);
     fetch("https://shn-3-gmail-api.vercel.app/api/sendMail", {
         method: "POST",
@@ -36,9 +38,11 @@ export default function App() {
       .then(response => response.json())
       .then(data =>{
         if(data) { 
+        topRef.current.scrollIntoView()
         setSuccess("Mail sent successfully! check your spam folder too.")
         setError(null);
         setSubjectInput("");
+        setSendStatus("SEND")
         setHtml(`<div class="example"> Type your HTML here! </div>`)
         setCss(`
         .example {
@@ -46,7 +50,7 @@ export default function App() {
         }
         `)
         }
-      }).catch((err)=> console.log(err))
+      }).catch((err)=> setError("failed to send the mail"))
   }
 
   useEffect(()=>{
@@ -97,7 +101,7 @@ export default function App() {
                   </div>
                   )
                 )}</div> : null}
-              <input style={{"all": "unset", "paddingLeft": "5px", "width": "100%"}} ref={toInputRef}  type="text"  value={toInput} onChange={(e)=> setToInput(e.target.value)} />
+              <input style={{"all": "unset", "paddingLeft": "5px", "width": "100%"}} ref={toInputRef}  type="text" onBlur={(e)=> setToInput(e.target.value + " ")}  value={toInput} onChange={(e)=> setToInput(e.target.value)} />
             </div>
             <h1 className="font-bold pt-3">Subject</h1>
           <input className='w-full border-black bg-slate-50 border-2 flex items-center pl-2 h-9 rounded-lg' type="text" onChange={e => {
@@ -132,7 +136,7 @@ export default function App() {
               />
           </div>
           </div>
-          <button className="font-bold border-2 border-black bg-lime-500 my-5 px-5 w-[200px] rounded-lg py-2 hover:scale-105 hover:bg-lime-600 hover:text-white" onClick={()=>sendMail(to, subjectInput, srcDoc)}>SEND</button>
+          <button className="font-bold border-2 border-black bg-lime-500 my-5 px-5 w-[200px] rounded-lg py-2 hover:scale-105 hover:bg-lime-600 hover:text-white" onClick={()=>sendMail(to, subjectInput, srcDoc)}>{sendStatus}</button>
           <div className='pt-1 pb-4'>Created with 💙 by inflated papadam</div>
         </div>
         </>
