@@ -12,16 +12,18 @@ export default function MonacoEditor(props) {
 
   return (
   <div className="w-full">
-    <h1>{language.toUpperCase()}</h1>
+    <h1 className="font-bold text-center py-5">{language.toUpperCase()}</h1>
     <Editor
+      className="border-4 border-black rounded-md"
       height={300}
       defaultLanguage={language}
       options={{
           minimap: {
               enabled: false
           },
+          fontSize: "20px"
       }}
-      theme="vs-dark"
+      theme="light"
       defaultValue={value}
       onChange={handleEditorChange}
     />
