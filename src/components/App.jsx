@@ -15,7 +15,7 @@ export default function App() {
   const toInputRef = useRef(null);
 
   const sendMail = (to, sub, htmlSrc)=> {
-    fetch("https://vercel.com/aurora-0025/shn-3-gmail-api/3TiVcowsMDKXr1oiZhVDmw5mBYgh/api/sendMail", {
+    fetch("https://shn-3-gmail-api.vercel.app/api/sendMail", {
         method: "POST",
         body: JSON.stringify({
           addresses: to,
