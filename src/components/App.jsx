@@ -20,8 +20,18 @@ export default function App() {
 
   const sendMail = (to, sub, htmlSrc)=> {
     setSendStatus("SENDING...")
-    if(to.length === 0) return setError(" please enter a to Address!");
-    if(subjectInput === "") return setError(" please enter a subject for the mail!");
+    if(to.length === 0) {
+      setError(" please enter a to Address!");
+      setSuccess("");
+      setSendStatus("SEND")
+      return topRef.current.scrollIntoView();
+    } 
+    if(subjectInput === "") {
+      setError(" please enter a subject for the mail!");
+      setSuccess("");
+      setSendStatus("SEND")
+      return topRef.current.scrollIntoView();
+    } 
     console.log(htmlSrc);
     fetch("https://shn-3-gmail-api.vercel.app/api/sendMail", {
         method: "POST",
@@ -43,12 +53,6 @@ export default function App() {
         setError(null);
         setSubjectInput("");
         setSendStatus("SEND")
-        setHtml(`<div class="example"> Type your HTML here! </div>`)
-        setCss(`
-        .example {
-          color: red;
-        }
-        `)
         }
       }).catch((err)=> setError("failed to send the mail"))
   }
@@ -58,7 +62,7 @@ export default function App() {
       if(splitInput.length === 2 ){
         if(toInput[0] === " ") return setToInput("");
         setToInput("")
-        if(!splitInput[0].endsWith('@gmail.com')) return setToInput("");
+        if(!splitInput[0].endsWith('@gmail.com')) return setToInput(splitInput[0]+"@gmail.com ");
         setTo(prevState=> [...prevState, splitInput[0]])
       }
     }, [toInput])
@@ -104,7 +108,7 @@ export default function App() {
               <input style={{"all": "unset", "paddingLeft": "5px", "width": "100%"}} ref={toInputRef}  type="text" onBlur={(e)=> setToInput(e.target.value + " ")}  value={toInput} onChange={(e)=> setToInput(e.target.value)} />
             </div>
             <h1 className="font-bold pt-3">Subject</h1>
-          <input className='w-full border-black bg-slate-50 border-2 flex items-center pl-2 h-9 rounded-lg' type="text" onChange={e => {
+          <input className='w-full border-black bg-slate-50 border-2 flex items-center pl-2 h-9 rounded-lg' value={subjectInput} type="text" onChange={e => {
             e.preventDefault()
             setSubjectInput(e.target.value)
             }} name="subject" id="sub" />
@@ -136,7 +140,10 @@ export default function App() {
               />
           </div>
           </div>
-          <button className="font-bold border-2 border-black bg-lime-500 my-5 px-5 w-[200px] rounded-lg py-2 hover:scale-105 hover:bg-lime-600 hover:text-white" onClick={()=>sendMail(to, subjectInput, srcDoc)}>{sendStatus}</button>
+          {sendStatus==="SENDING" ? 
+          <button disabled={true} className='font-bold border-2 border-black my-5 px-5 w-[200px] rounded-lg py-2 bg-lime-600'>{sendStatus}</button>
+          : <button className="font-bold border-2 border-black bg-lime-500 my-5 px-5 w-[200px] rounded-lg py-2 hover:scale-105 hover:bg-lime-600 hover:text-white" onClick={()=>sendMail(to, subjectInput, srcDoc)}>{sendStatus}</button>
+        }
           <div className='pt-1 pb-4'>Created with 💙 by inflated papadam</div>
         </div>
         </>
