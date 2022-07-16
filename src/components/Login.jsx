@@ -7,17 +7,17 @@ function handleSignOut(event) {
   setUser(null);
   document.getElementById("buttonDiv").hidden = false;
 }
-  
-function handleCredentialResponse(response) {
+
+  useEffect(
+    ()=>{
+      if(user) return;
+      function handleCredentialResponse(response) {
     console.log("Encoded JWT ID token: " + response.credential);
     var userData = jwt_decode(response.credential)
     setUser(userData)
     document.getElementById("buttonDiv").hidden = true;
   }
-
-  useEffect(
-    ()=>{
-      if(user) return;
+      
       /* global google */
       // @ts-ignore
           google.accounts.id.initialize({
@@ -29,7 +29,7 @@ function handleCredentialResponse(response) {
             { theme: "outline", size: "large" }  // customization attributes
           );
           google.accounts.id.prompt(); // also di
-    }, [user])
+    }, [user, setUser])
   return (
     <div>
       {!user ?
