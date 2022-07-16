@@ -48,7 +48,7 @@ function Create({limiter, records, setDone, user, base}) {
  const [button, setButton] = useState(true);
  const [success, setSuccess] = useState(null);
   return (
-    <div className="m-3 p-2 rounded-lg border drop-shadow-lg text-left">
+    <div className="m-3 p-2 rounded-lg border border-3 border-blue-500 drop-shadow-lg text-left">
     {error &&
       <p className="w-full m-2 px-2 bg-red-200 rounded text-red-800">{error}</p>
     }
