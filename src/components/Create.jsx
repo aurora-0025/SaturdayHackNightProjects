@@ -1,16 +1,12 @@
 import {useState, useRef} from 'react'
 
-function Create({limiter, records, setDone, user, base}) {
-  function handleChange(e) {
-    setValue(e.target.value)
-  }
+function Create({limiter, records, setRecords, setDone, user, base}) {
   
   function handleSubmit(e) {
     setButton(false);
     e.preventDefault();
     setError(null);
     setSuccess(null);
-    setValue(null);
     if(valueRef.current.value === "") return setError("Please enter something")
     else {
     limiter.schedule(() => base('postvity').create([
@@ -22,7 +18,7 @@ function Create({limiter, records, setDone, user, base}) {
           "Post": valueRef.current.value
         }
       }
-    ], function(err, records) {
+    ], function(err, recs) {
       if (err) {
         console.error(err);
         valueRef.current.scrollIntoView();
@@ -30,12 +26,12 @@ function Create({limiter, records, setDone, user, base}) {
         setError("Failed to create record");
         return;
       }
-      records.forEach(function (record) {
+      recs.forEach(function (record) {
         console.log(record.getId());
         setSuccess("Successfully added your P😀ST");
       setButton(true);
       setDone(true);
-      records.setRecords([...records.records, record])
+      setRecords([...records, record])
       });
     })
     )
@@ -43,7 +39,6 @@ function Create({limiter, records, setDone, user, base}) {
   }
   
  const valueRef = useRef(null);
- const [value, setValue] = useState(null);
  const [error, setError] = useState(null);
  const [button, setButton] = useState(true);
  const [success, setSuccess] = useState(null);
@@ -56,7 +51,7 @@ function Create({limiter, records, setDone, user, base}) {
       <p className="w-full m-2 px-2 bg-green-200 rounded text-green-800">{success}</p>
     }
     
-      <textarea maxLength={100} ref={valueRef} onChange={(e)=>handleChange(e)} placeholder="If you could say one thing to the world what would it be?" className="caret-blue-800
+      <textarea maxLength={100} ref={valueRef} placeholder="If you could say one thing to the world what would it be?" className="caret-blue-800
         h-[150px]
         px-1
         w-full
