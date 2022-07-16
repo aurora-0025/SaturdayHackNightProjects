@@ -72,7 +72,7 @@ function App() {
         <div>
         {!done && (
           <>
-          <h1 className="mx-5 mt-5 text-xl font-bold">Spread your love</h1>
+          <h1 className="mx-5 mt-7 text-xl font-bold">Spread your love</h1>
           <Create limiter={limiter} records={records, setRecords} setDone={setDone} user={user} base={base} /> < />
         )}
         {records && (
