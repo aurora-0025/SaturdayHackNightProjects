@@ -10,3 +10,9 @@
 
 Built completely on my android 📱
 Using [Termux](https://github.com/termux/termux-app) and [ACodeEditor](https://github.com/deadlyjack/Acode) as the code editor
+
+> PS: do not try this at home 🫡
+
+---
+
+[airtable link](https://airtable.com/shrSrTCuZ2aSPNc59)
