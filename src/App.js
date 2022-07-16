@@ -26,6 +26,10 @@ function App() {
     setLoading] = useState(false);
   const [records,
     setRecords] = useState(null)
+    
+   useEffect(()=>{
+     console.log(records)
+   }, [records])
 
   useEffect(
     ()=> {
@@ -60,7 +64,7 @@ function App() {
           !user &&
           <>
           <p className='text-center font-bold text-gray-800 mt-3'>
-            "If you had one thing to say to the world what would it be"
+            "If you had one thing to say to the world, what would it be"
           </p>
           <h1 className='text-center mt-[15vh]'>To continue signin</h1> 
           </>
@@ -73,11 +77,10 @@ function App() {
         {!done && (
           <>
           <h1 className="mx-5 mt-7 text-xl font-bold">Spread your love</h1>
-          <Create limiter={limiter} records={records, setRecords} setDone={setDone} user={user} base={base} /> < />
+          <Create limiter={limiter} records={records} setRecords={setRecords} setDone={setDone} user={user} base={base} /> < />
         )}
         {records && (
           <div className="mt-9">
-          <h2></h2>
          {records.map((record, index)=> <Post key={index} record={record} />)}
           </div>
           )}
