@@ -14,7 +14,7 @@ const limiter = new Bottleneck({
 });
 
 const base = new Airtable({
-  apiKey: process.env.AIRTABLE_API_KEY
+  apiKey: 'keyeCdMKWjKVGoFHM'
 }).base('appdslBSpUnEvaXN7')
 
 function App() {
