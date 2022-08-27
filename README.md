@@ -3,7 +3,7 @@
 
 ## About
 
-> Tried of sending boring emails fear not because with inflated emails you can send emails typed with html and css making your emails interactive and amazing!
+> Tired of sending boring emails fear not because with inflated emails you can send emails typed with html and css making your emails interactive and amazing!
 
 ## Team Members
 
